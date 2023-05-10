@@ -11,7 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-       
+        //
+    Schema::table('bagians', function (Blueprint $table) {
+            $table->string('kd_bagian')->after('id')->unique();
+        });
     }
 
     /**
@@ -19,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-       
+        Schema::table('bagians', function ($table) {
+            $table->dropColumn('kd_bagian');
+        });
     }
 };
