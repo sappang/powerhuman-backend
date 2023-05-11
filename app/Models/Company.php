@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
@@ -15,12 +16,12 @@ class Company extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'kd_company',
         'name',
         'logo'
     ];
 
-    public function companies()
-    {
-        
+    public function detail_user(): HasMany   {
+        return $this->hasMany(Detail_user::class);
     }
 }

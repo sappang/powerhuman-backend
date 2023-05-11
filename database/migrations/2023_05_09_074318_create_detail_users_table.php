@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('detail_users', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_user')->unique();
+            $table->bigInteger('user_id')->unique();
             $table->bigInteger('no_pegawai')->unique();
             $table->bigInteger('nik')->unique();
             $table->string('npwp')->nullable();

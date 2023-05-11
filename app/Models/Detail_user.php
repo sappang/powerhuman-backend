@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Detail_user extends Model
 {
@@ -15,7 +18,8 @@ class Detail_user extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id_user',
+        'user_id',
+        'company_id',
         'no_pegawai',
         'nik',
         'npwp',
@@ -32,4 +36,16 @@ class Detail_user extends Model
         'nama_ibu',
         'avatar'
     ];
+
+    public function companies(): BelongsTo
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

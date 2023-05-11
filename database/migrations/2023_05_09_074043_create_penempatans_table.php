@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('penempatans', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_user');
-            $table->bigInteger('id_bagian');
+            $table->bigInteger('user_id');
+            $table->bigInteger('bagian_id');
             $table->string('no_sk');
             $table->date('tmt');
             $table->string('file_sk');

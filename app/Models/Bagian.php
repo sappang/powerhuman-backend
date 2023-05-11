@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Bagian extends Model
@@ -21,4 +22,9 @@ class Bagian extends Model
         'tgl_sk',
         'file_sk'
     ];
+
+    public function penempatan(): HasMany    
+    {
+        return $this->hasMany(Penempatan::class);
+    }
 }

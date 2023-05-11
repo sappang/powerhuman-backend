@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('company_id')->unsigned();
-            $table->boolean('is_aktif')->default(false);
-            $table->softDeletes();
-            $table->timestamps();
+        Schema::table('companies', function (Blueprint $table) {
+            $table->string('kd_company')->after('id')->unique();
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::table('companies', function ($table) {
+            $table->dropColumn('kd_company');
+        });
     }
 };
