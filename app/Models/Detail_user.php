@@ -22,6 +22,7 @@ class Detail_user extends Model
         'company_id',
         'no_pegawai',
         'nik',
+        'gender',
         'npwp',
         'tempat_lahir',
         'tgl_lahir',

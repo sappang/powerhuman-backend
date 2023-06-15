@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Bagian;
 use App\Models\Company;
+use App\Models\Detail_user;
 use App\Models\Penempatan;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,6 @@ class DatabaseSeeder extends Seeder
 
         // Bagian::factory(5)->create();
 
-        Penempatan::factory(10)->create();
+        Detail_user::factory(11)->create();
     }
 }
