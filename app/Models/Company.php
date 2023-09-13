@@ -21,7 +21,9 @@ class Company extends Model
         'logo'
     ];
 
-    public function detail_user(): HasMany   {
+    public function detail_user(): HasMany   
+    {
         return $this->hasMany(Detail_user::class);
     }
+
 }
