@@ -21,7 +21,7 @@ Route::get('/company',[CompanyController::class, 'all']);
 
 Route::post('login',[UserController::class,'login']);
 Route::post('register',[UserController::class,'register']);
-Route::post('logout',[UserController::class,'logout']);
-Route::get('fetch',[UserController::class,'fetch'])->middleware('auth:sanctum');
+Route::post('logout',[UserController::class,'logout'])->middleware('auth:sanctum');
+Route::get('user',[UserController::class,'fetch'])->middleware('auth:sanctum');
 
 
