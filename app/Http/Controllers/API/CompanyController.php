@@ -4,8 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateCompanyRequest;
 use App\Models\Company;
+use Exception;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use function PHPUnit\Framework\throwException;
 
 class CompanyController extends Controller
 {
@@ -38,5 +44,42 @@ class CompanyController extends Controller
             $companies->paginate($limit),
             'Companies Found'
         );
+    }
+
+    public function create(CreateCompanyRequest $request)
+    {
+        try {
+            // TODO: Upload LOGO
+            if ($request->hasFile('logo')) 
+            {
+            $path = $request->file('logo')->store('public/logos');
+            }
+            // TODO: Create Company
+            $company = Company::create([
+                'kd_company' => $request->kd_company,
+                'name' => $request->name,
+                'logo' => $path,
+            ]);
+        
+            return ResponseFormatter::success($company,'Company Created');
+
+            if (!$company) 
+                {
+                    throw new Exception('Company Not Created');
+                }
+
+            // TODO: Attach User------>kalau ada relationship MAKA LAMPIRKAN MENGGUNAKAN ATTACHED
+            // $user = User::find(Auth::id());
+            // $user->companies()->attach($company->id);
+
+            // TODO: LOAD USER
+            // $company->load('users');
+
+            } 
+            catch (Exception $e) 
+            {
+                return ResponseFormatter::error($e->getMessage(),500);
+            }
+        
     }
 }
