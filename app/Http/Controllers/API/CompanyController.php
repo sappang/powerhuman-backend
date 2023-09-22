@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use Exception;
 use Illuminate\Foundation\Auth\User;
@@ -81,5 +82,33 @@ class CompanyController extends Controller
                 return ResponseFormatter::error($e->getMessage(),500);
             }
         
+    }
+
+    public function update(UpdateCompanyRequest $request,$id)
+    {
+        try {
+            $company = Company::find($id);
+    
+            if (!$company) {
+                throw New Exception('Company Not Found');
+            }
+            
+            // TODO: Upload LOGO
+            if ($request->hasFile('logo')) 
+            {
+            $path = $request->file('logo')->store('public/logos');
+            }
+            // TODO: Update Company
+            $company->update([
+                'kd_company' => $request->kd_company,
+                'name' => $request->name,
+                'logo' => $path,
+            ]);
+
+            return ResponseFormatter::success($company,'Company Update');
+        } catch (Exception $e) 
+        {
+            return ResponseFormatter::error($e->getMessage(),500);
+        }
     }
 }

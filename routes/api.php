@@ -16,10 +16,18 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// Company API
+Route::group([
+    'prefix' => 'company',
+    'middlware' => 'auth:sanctum' 
+],function(){
+    Route::get('',[CompanyController::class, 'all']);
+    Route::post('',[CompanyController::class, 'create']);
+    Route::put('',[CompanyController::class, 'update']);
+}
+);
 
-Route::get('company',[CompanyController::class, 'all']);
-Route::post('company',[CompanyController::class, 'create'])->middleware('auth:sanctum');
-
+// Auth API
 Route::post('login',[UserController::class,'login']);
 Route::post('register',[UserController::class,'register']);
 Route::post('logout',[UserController::class,'logout'])->middleware('auth:sanctum');
