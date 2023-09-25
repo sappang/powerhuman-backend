@@ -16,7 +16,7 @@ use function PHPUnit\Framework\throwException;
 
 class CompanyController extends Controller
 {
-    public function all(Request $request)
+    public function fetch(Request $request)
     {
         $id = $request->input('id');
         $name = $request->input('name');
