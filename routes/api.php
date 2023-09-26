@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('company')->middleware('auth:sanctum')->group(function(){
     Route::get('',[CompanyController::class, 'fetch'])->name('fetch');
     Route::post('',[CompanyController::class, 'create'])->name('create');
-    Route::put('company/{id}',[CompanyController::class, 'update'])->name('update');
+    Route::post('update/{id}',[CompanyController::class, 'update'])->name('update');
 
 });
 

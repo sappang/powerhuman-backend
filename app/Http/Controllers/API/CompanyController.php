@@ -62,20 +62,21 @@ class CompanyController extends Controller
                 'logo' => $path,
             ]);
         
-            return ResponseFormatter::success($company,'Company Created');
-
+            
             if (!$company) 
-                {
-                    throw new Exception('Company Not Created');
-                }
-
+            {
+                throw new Exception('Company Not Created');
+            }
+            
             // TODO: Attach User------>kalau ada relationship MAKA LAMPIRKAN MENGGUNAKAN ATTACHED
-            // $user = User::find(Auth::id());
-            // $user->companies()->attach($company->id);
-
+            $user = User::find(Auth::id());
+            $user->companies->attach($company->id);
+            
             // TODO: LOAD USER
-            // $company->load('users');
+            $company->load('users');
 
+            return ResponseFormatter::success($company,'Company Created');
+            
             } 
             catch (Exception $e) 
             {
