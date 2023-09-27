@@ -23,7 +23,7 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kd_company' => 'nullable|string|max:6',
+            'kd_company' => 'nullable|string|max:6|unique:companies,kd_company,'.$this->id.',id',
             'name' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:png,jpg,jpeg|max:2048'
         ];

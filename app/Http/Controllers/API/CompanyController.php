@@ -8,9 +8,9 @@ use App\Http\Requests\CreateCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
 use Exception;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use function PHPUnit\Framework\throwException;
 
@@ -25,7 +25,7 @@ class CompanyController extends Controller
         // http://powerhuman-backend.test/api/company?id=1
         if ($id) 
         {
-            $company = Company::with(['detail_user'])->find($id);
+            $company = Company::with(['users'])->find($id);
 
             if ($company) 
             {
@@ -35,7 +35,9 @@ class CompanyController extends Controller
             return ResponseFormatter::error('Company not Found');
         }
 
-        $companies = Company::with(['detail_user']);
+        $companies = Company::whereHas('users', function($query){
+            $query->where('user_id',Auth::id());
+        });
 
         if ($name) {
             $companies->where('name','like','%' . $name . '%');
@@ -70,7 +72,7 @@ class CompanyController extends Controller
             
             // TODO: Attach User------>kalau ada relationship MAKA LAMPIRKAN MENGGUNAKAN ATTACHED
             $user = User::find(Auth::id());
-            $user->companies->attach($company->id);
+            $user->companies()->attach($company->id);
             
             // TODO: LOAD USER
             $company->load('users');
@@ -107,6 +109,7 @@ class CompanyController extends Controller
             ]);
 
             return ResponseFormatter::success($company,'Company Update');
+
         } catch (Exception $e) 
         {
             return ResponseFormatter::error($e->getMessage(),500);
