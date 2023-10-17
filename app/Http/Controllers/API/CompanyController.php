@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-use function PHPUnit\Framework\throwException;
 
 class CompanyController extends Controller
 {
@@ -22,11 +21,15 @@ class CompanyController extends Controller
         $name = $request->input('name');
         $limit = $request->input('limit',10);
 
+        $companyQuery = Company::with(['users'])->whereHas('users', function ($query) {
+            $query->where('user_id', Auth::id());
+        });
+        
         // http://powerhuman-backend.test/api/company?id=1
         if ($id) 
         {
-            $company = Company::with(['users'])->find($id);
-
+            $company = $companyQuery->find($id);
+            
             if ($company) 
             {
                 return ResponseFormatter::success($company,'Company Found');
@@ -35,9 +38,7 @@ class CompanyController extends Controller
             return ResponseFormatter::error('Company not Found');
         }
 
-        $companies = Company::whereHas('users', function($query){
-            $query->where('user_id',Auth::id());
-        });
+        $companies = $companyQuery;
 
         if ($name) {
             $companies->where('name','like','%' . $name . '%');
